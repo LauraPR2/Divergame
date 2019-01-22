@@ -18,7 +18,7 @@ function startAnimation (){
   requestAnimationFrame(startAnimation)
   obstacles1.forEach(function(obstacle1) {
     if (crushObs(obstacle1)) {
-      console.log('crush');
+      
 }
 })
 }
@@ -38,6 +38,7 @@ function drawEverything(){
 
 function updateEverything(){
   frame++
+  checkForJellyfish()
   background.update()
   diver.update()
   obstacles1.forEach(obstacle1 => obstacle1.update(ctx))
@@ -45,7 +46,7 @@ function updateEverything(){
 
 
   if(frame % 100 == 0) {
-    console.log("I have gone 100 frame")
+    
     createObstacle1()    // add a new obstacle
   }
   if(frame % 300 == 0) {
@@ -64,7 +65,9 @@ window.onkeydown = function(event) {
     diver.x += 10    
   } else if(event.keyCode == 37) { // left
     diver.x -= 10        
-  } 
+  } else if (event.keyCode == 32) { // space
+    console.log("space")
+  }
 }
 
 function createObstacle1 (){
@@ -80,9 +83,26 @@ function createAirtank (){
 
 function crushObs (obstacle1) {
   if (diver.right() > obstacle1.left()) {
-    console.log("touched)")
+    
   }
 }
+// just for obastacles1 // jellyfishes
+ function checkForJellyfish () {
+    for (let i = 0; i < obstacles1.length; i++){
+
+    if (
+      this.diver.x + 200 > obstacles1[i].x &&
+      obstacles1[i].y + 50 > this.diver.y &&
+      this.diver.x - 200 < obstacles1[i].x &&
+      obstacles1[i].y - 50 < this.diver.y
+      ){
+      this.diver.health-=1
+      console.log("POP!")
+      obstacles1[i].x=0+''
+      obstacles1[i].y=0+''
+    }
+    }
+  } 
 
 // function crushObs(obstacle1) {
 //   if (diver.left() < obstacle1.right() && diver.right() > obstacle1.left()) {
@@ -92,4 +112,3 @@ function crushObs (obstacle1) {
 // }
 
 startAnimation()
-

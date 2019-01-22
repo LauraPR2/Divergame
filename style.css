@@ -1,12 +1,18 @@
 canvas {
-  border: 1px solid black;
+  border: 2px solid #2380b2;
+  box-shadow: 0 0 40px 20px #29c5f4;
+
 }
 
 #canvas-place {
   padding: 20px;
-  margin: 0 auto;
+  /* margin: 0 auto; */
 }
 
 body {
-  width: 1000px;
+  background-color: #f4ffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
