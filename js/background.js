@@ -16,7 +16,8 @@ class Background {
   
   update(){
     this.x += this.vx
-    if (this.x == (-this.width)){
+    //this.x = this.x % this.width
+    if (this.x < (-this.width)){
       this.x += (this.width)
     }
   }
