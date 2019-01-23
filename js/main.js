@@ -39,7 +39,7 @@ function onStart() {
 function drawEverything() {
   ctx.clearRect(0, 0, canvasWidth, 500)
   background.draw(ctx)
-  diver.drawDiver(ctx)
+  diver.draw(ctx)
   writeAir()
   writeHealth()
   writeScore()
@@ -101,16 +101,19 @@ function gameOver() {
 function restartGame() {
   status = "play"
   ctx.clearRect(0, 0, canvasWidth, canvasHeight)
-  diver.health = 1
-  diver.airSupply = 500
-  diver.score = 0
+  // diver.health = 1
+  // diver.airSupply = 500
+  // diver.score = 0
   obstacles1 = []
   airtanks = []
   frame = 0
   diver.speedY = 0
   diver.gravity = 0
-  diver.x = ((canvasWidth - diver.width) / 2) - 50
-  diver.y = (canvasHeight - diver.height) / 2
+  // diver.x = ((canvasWidth - diver.width) / 2) - 50
+  // diver.y = (canvasHeight - diver.height) / 2
+
+  diver = new Diver(diver.canvasHeight, diver.canvasWidth)
+
   startAnimation()
 }
 
@@ -138,7 +141,7 @@ function checkForJellyfish() {
       this.diver.x - 200 < obstacles1[i].x &&
       obstacles1[i].y - 50 < this.diver.y
     ) {
-      this.diver.health -= 1
+      this.diver.collide()
       obstacles1[i].x = 0 + ''
       obstacles1[i].y = 0 + ''
     }
@@ -183,19 +186,20 @@ function writeScore() {
 
 window.onkeydown = function (event) {
   if (event.keyCode == 32) { // down
+    event.preventDefault()
     diver.gravity = -0.2;
     diver.speedY = -1;
-//   } else if (event.keyCode == 38) { //up
-//     diver.y -= 10
-//   } else if (event.keyCode == 39) { // right 
-//     diver.x += 10
-//   } else if (event.keyCode == 37) { // left
-//     diver.x -= 10
-//   } else if (event.keyCode == 32) { // space
-//     console.log("space")
+    //   } else if (event.keyCode == 38) { //up
+    //     diver.y -= 10
+    //   } else if (event.keyCode == 39) { // right 
+    //     diver.x += 10
+    //   } else if (event.keyCode == 37) { // left
+    //     diver.x -= 10
+    //   } else if (event.keyCode == 32) { // space
+    //     console.log("space")
   }
 }
-window.onkeyup = function(event) {
+window.onkeyup = function (event) {
   if (event.keyCode === 32) {
     diver.gravity = 0.1;
   }
@@ -216,6 +220,7 @@ function clickToRestart() {
 function clickToStart() {
   if (status === "start") {
     window.onclick = function () {
+      document.querySelector('#canvas').requestFullscreen()
       console.log("clicked")
       startAnimation()
       window.onclick = function () {
