@@ -10,16 +10,17 @@ class Diver {
     this.y = (this.canvasHeight - this.height) / 2
     this.speedY = 0
     this.gravity = 0
-    this.health = 5
-    this.airSupply = 5000
+    this.health = 1
+    this.airSupply = 500
     this.score = 0
   }
   update() {
     this.speedY += this.gravity;
     this.y += this.speedY;
 
+    // bounce
     if (this.y < 0) {
-      this.speedY = 5;
+      this.speedY = 1;
       this.y += this.speedY;
     }
   }
@@ -30,3 +31,4 @@ class Diver {
 
   reset() { }
 }
+
