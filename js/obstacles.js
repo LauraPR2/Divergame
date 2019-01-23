@@ -16,18 +16,4 @@ class Obstacles {
   update(){
     this.x += this.vx
   }
-  left() {
-    return this.x;
-  }
-  right() {
-    return this.x + this.width;
-  }
-  top() {
-    return this.y;
-  }
-  bottom() {
-    return this.y + this.height;
-  }
-
-
 }
