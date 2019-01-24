@@ -15,11 +15,8 @@ var obstacles1 = []
 var airtanks = []
 var frame = 0
 var status = "start"
-var restartbutton = new Image()
-restartbutton.src = "../images/restart.png"
-
-
-
+var lifes = new Image()
+lifes.src = "../images/lifes.png"
 
 
 
@@ -31,8 +28,8 @@ function onStart() {
   ctx.fillStyle = "#f4ffff";
   ctx.fillRect(0, 0, canvasWidth, canvasHeight)
   ctx.fillStyle = "#29c5f4"
-  ctx.font = '50px calibri';
-  ctx.fillText(`click to start`, 320, 400);
+  ctx.font = '50px Luckiest Guy';
+  ctx.fillText(`click to start`, 310, 400);
   clickToStart()
 }
 
@@ -40,9 +37,11 @@ function drawEverything() {
   ctx.clearRect(0, 0, canvasWidth, 500)
   background.draw(ctx)
   diver.draw(ctx)
-  writeAir()
-  writeHealth()
+  drawingAirLeft()
+  // writeAir()
+  // writeHealth()
   writeScore()
+  drawingLifes()
   obstacles1.forEach(obstacle1 => obstacle1.draw(ctx))
   airtanks.forEach(airtank => airtank.draw(ctx))
 }
@@ -51,15 +50,16 @@ function updateEverything() {
   frame++
   checkForJellyfish()
   checkForAirtank()
+
   background.update()
   diver.update()
   obstacles1.forEach(obstacle1 => obstacle1.update(ctx))
   airtanks.forEach(airtank => airtank.update(ctx))
   if (frame % 100 == 0) {
     createObstacle1() // add a new obstacle
-    diver.airSupply -= 50
+    diver.airSupply -= 10
   }
-  if (frame % 300 == 0) {
+  if (frame % 600 == 0) {
     createAirtank()    // add a new tank
   }
   if (frame % 10 == 0) {
@@ -85,13 +85,17 @@ function gameOver() {
   if (status === "over") {
     ctx.clearRect(0, 0, canvasWidth, canvasHeight)
     //ctx.fillRect = "#f4ffff"
+    ctx.fillStyle = "#29c5f4"
     ctx.fillRect(0, 0, canvasWidth, canvasHeight)
-    ctx.font = '90px calibri';
-    ctx.fillStyle = "#f4ffff";
+    ctx.font = '90px Luckiest Guy';
+    ctx.fillStyle = "#2380b2";
     ctx.fillText(`GAME OVER`, 225, 200);
-    ctx.font = '40px calibri';
+    ctx.font = '40px Luckiest Guy';
+    ctx.fillStyle = "#eeae44";
+    ctx.font = '35px Luckiest Guy';
+    ctx.fillText(`Final Score: ${diver.score}`, 320, 300);
     ctx.fillStyle = "#f4ffff";
-    ctx.fillText(`<click to restart>`, 300, 400);
+    ctx.fillText(`click to restart`, 300, 400);
     //ctx.drawImage(restartbutton, 400, 300, 80, 80)
     clickToRestart()
   }
@@ -130,6 +134,40 @@ function createAirtank() {
   airtanks.push(airtank)
 }
 
+function drawingLifes() {
+  if (diver.health === 5) {
+    ctx.drawImage(lifes, 10, 30)
+    ctx.drawImage(lifes, 40, 30)
+    ctx.drawImage(lifes, 70, 30)
+    ctx.drawImage(lifes, 100, 30)
+    ctx.drawImage(lifes, 130, 30)
+  }
+  if (diver.health === 4) {
+    ctx.drawImage(lifes, 10, 30)
+    ctx.drawImage(lifes, 40, 30)
+    ctx.drawImage(lifes, 70, 30)
+    ctx.drawImage(lifes, 100, 30)
+  }
+  if (diver.health === 3) {
+    ctx.drawImage(lifes, 10, 30)
+    ctx.drawImage(lifes, 40, 30)
+    ctx.drawImage(lifes, 70, 30)
+  }
+  if (diver.health === 2) {
+    ctx.drawImage(lifes, 10, 30)
+    ctx.drawImage(lifes, 40, 30)
+  }
+  if (diver.health === 1) {
+    ctx.drawImage(lifes, 10, 30)
+  }
+}
+
+function drawingAirLeft() {
+  var rectWidth = diver.airSupply;
+  ctx.fillStyle = "#eeae44"
+  ctx.fillRect(10, 10, rectWidth, 15)
+}
+
 
 // Checking for collisions
 function checkForJellyfish() {
@@ -153,7 +191,7 @@ function checkForAirtank() {
     if (
       this.diver.x + 200 > airtanks[i].x &&
       airtanks[i].y + 50 > this.diver.y &&
-      this.diver.x - 200 < airtanks[i].x &&
+      this.diver.x + 50 < airtanks[i].x &&
       airtanks[i].y - 50 < this.diver.y
     ) {
       this.diver.airSupply += 100
@@ -164,19 +202,42 @@ function checkForAirtank() {
   }
 }
 
+function checkForFloor() {
+  if (this.diver.height === (canvasHeight - this.diver.height)) {
+    this.diver.collide()
+    setTimeout(gameOver(), 2000)
+  }
+}
+
 //Displaying scores
 
-function writeAir() {
-  ctx.font = '20px calibri';
-  ctx.fillStyle = "#2380b2"
-  ctx.fillText(`Air: ${diver.airSupply}`, 15, 25);
-}
-function writeHealth() {
-  ctx.font = '20px calibri';
-  ctx.fillText(`Health: ${diver.health}`, 15, 50);
-}
+// function writeAir() {
+//   ctx.font = '22px calibri';
+//   ctx.fillStyle = "#2380b2"
+
+//   if (diver.airSupply <= 80) {
+//     ctx.fillStyle = "#f4b042";
+//   }
+//   if (diver.airSupply < 50) {
+//     ctx.fillStyle = "#ff0000"
+//   }
+//   ctx.fillText(`Air: ${diver.airSupply}`, 15, 25);
+// }
+// function writeHealth() {
+//   ctx.fillStyle = "#2380b2"
+//   if (diver.health <= 3) {
+//     ctx.fillStyle = "#f4b042";
+//   }
+//   if (diver.health === 1) {
+//     ctx.fillStyle = "#ff0000";
+//   }
+
+//   ctx.font = '22px calibri';
+//   ctx.fillText(`Health: ${diver.health}`, 15, 50);
+// }
 function writeScore() {
-  ctx.font = '20px calibri';
+  ctx.fillStyle = "#2380b2";
+  ctx.font = '22px Luckiest Guy';
   ctx.fillText(`Score: ${diver.score}`, 15, 75);
 }
 
@@ -185,18 +246,10 @@ function writeScore() {
 //ON-CLICK EVENTS
 
 window.onkeydown = function (event) {
-  if (event.keyCode == 32) { // down
+  if (event.keyCode == 32) {
     event.preventDefault()
     diver.gravity = -0.2;
     diver.speedY = -1;
-    //   } else if (event.keyCode == 38) { //up
-    //     diver.y -= 10
-    //   } else if (event.keyCode == 39) { // right 
-    //     diver.x += 10
-    //   } else if (event.keyCode == 37) { // left
-    //     diver.x -= 10
-    //   } else if (event.keyCode == 32) { // space
-    //     console.log("space")
   }
 }
 window.onkeyup = function (event) {
@@ -204,6 +257,15 @@ window.onkeyup = function (event) {
     diver.gravity = 0.1;
   }
 };
+
+window.onclick = function (event) {
+  if (status === "play") {
+    window.onclick = function () {
+      diver.gravity = -0.2;
+      diver.speedY = -1;
+    }
+  }
+}
 
 function clickToRestart() {
   if (status === "over") {

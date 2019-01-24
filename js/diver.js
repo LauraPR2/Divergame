@@ -13,15 +13,17 @@ class Diver {
     this.iImg = 4
 
     this.width = 240
-    this.height = 85
+    this.height = 95
     this.canvasWidth = canvasWidth
     this.canvasHeight = canvasHeight
-    this.x = ((this.canvasWidth - this.width) / 2) - 50
-    this.y = (this.canvasHeight - this.height) / 2
+    this.x = 100
+    this.y = 250
+    // this.x = ((this.canvasWidth - this.width) / 2) - 50
+    // this.y = (this.canvasHeight - this.height) / 2
     this.speedY = 0
     this.gravity = 0
-    this.health = 2
-    this.airSupply = 500
+    this.health = 5
+    this.airSupply = 150
     this.score = 0
 
     this.transparencyTtl = 0 // Always a number
