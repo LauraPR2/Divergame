@@ -22,7 +22,7 @@ class Diver {
     // this.y = (this.canvasHeight - this.height) / 2
     this.speedY = 0
     this.gravity = 0
-    this.health = 5
+    this.health = 1
     this.airSupply = 150
     this.score = 0
 
@@ -39,6 +39,10 @@ class Diver {
     if (this.y < 0) {
       this.speedY = 1;
       this.y += this.speedY;
+    }
+    if (this.y > (canvasHeight - 200)) {
+      this.speedY = 1;
+      this.y -= this.speedY;
     }
   }
 
